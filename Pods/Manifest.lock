@@ -1,0 +1,16 @@
+PODS:
+  - AFNetworking (1.3.4)
+  - OpenWeatherMapAPI (0.0.5):
+    - AFNetworking (~> 1.3.1)
+  - SwiftyJSON (2.4.0)
+
+DEPENDENCIES:
+  - OpenWeatherMapAPI (~> 0.0.4)
+  - SwiftyJSON (~> 2.4.0)
+
+SPEC CHECKSUMS:
+  AFNetworking: cf8e418e16f0c9c7e5c3150d019a3c679d015018
+  OpenWeatherMapAPI: 53613bba3dffc948f852a66a25f512f7a16643e7
+  SwiftyJSON: 96918c1bf505efa50c4f72957018dd3452090c9c
+
+COCOAPODS: 0.39.0
