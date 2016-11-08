@@ -34,8 +34,7 @@ struct LocationModel {
         self.longitude = location.coordinate.longitude
         self.altitude = location.altitude
         self.speed = location.speed
-        
-        currentCity = city
+        self.currentCity = city
     }
 
 }
