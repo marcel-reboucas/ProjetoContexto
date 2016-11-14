@@ -49,6 +49,8 @@ class LocationHandler: NSObject, CLLocationManagerDelegate  {
         super.init()
         self.locationManager.delegate = self
         self.locationManager.requestAlwaysAuthorization()
+        
+        print("Starting LocationHandler")
     }
     
     deinit {
@@ -81,7 +83,6 @@ class LocationHandler: NSObject, CLLocationManagerDelegate  {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
-        
         
         if timeCounter < timeBetweenUpdates {
             timeCounter = timeCounter + 1.0

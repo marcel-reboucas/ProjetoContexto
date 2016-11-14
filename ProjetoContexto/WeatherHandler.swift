@@ -49,6 +49,8 @@ class WeatherHandler : NSObject {
         updateCurrentWeatherInfo()
         updateOnce = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector:  #selector(WeatherHandler.updateCurrentWeatherOnce), userInfo: nil, repeats: true)
         timedUpdates = NSTimer.scheduledTimerWithTimeInterval(timeBetweenUpdates, target: self, selector:  #selector(WeatherHandler.updateCurrentWeatherInfo), userInfo: nil, repeats: true)
+        
+        print("Starting WeatherHandler")
     }
     
     deinit {

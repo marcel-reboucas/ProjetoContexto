@@ -105,7 +105,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         weatherData.append(DataValue("country", weather.country))
         weatherData.append(DataValue("weather", weather.weather))
         weatherData.append(DataValue("temperature", weather.temperatureCurrent.description))
-        weatherData.append(DataValue("pressure", weather.pressure.description))
         weatherData.append(DataValue("humidity", weather.humidity.description))
         
         if let sunrise = weather.sunrise {
