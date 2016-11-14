@@ -19,6 +19,7 @@ class WeatherHandler : NSObject {
     
     // Singleton
     static let sharedInstance = WeatherHandler()
+    let dateFormatter = NSDateFormatter()
     
     typealias WeatherResultBlock = (result: Result<WeatherInfo, Error>) -> ()
     
@@ -40,9 +41,11 @@ class WeatherHandler : NSObject {
         
         weatherApi = OWMWeatherAPI(APIKey: API_KEY)
         weatherApi.setTemperatureFormat(kOWMTempCelcius)
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ"
         
         super.init()
         
+        updateCurrentWeatherInfo()
         timedFunction = NSTimer.scheduledTimerWithTimeInterval(timeBetweenUpdates, target: self, selector:  #selector(WeatherHandler.updateCurrentWeatherInfo), userInfo: nil, repeats: true)
     }
     
@@ -56,9 +59,21 @@ class WeatherHandler : NSObject {
             (error, result) -> Void in
             
             if let result = result {
-                let weather : WeatherInfo = WeatherInfo(data: JSON(result))
+                
+                var json = JSON(result)
+                
+                // Fixes a problem with sunrise and sunset information. It wasn't being correctly transfered when converting to JSON.
+                let sys = (result as NSDictionary)["sys"] as! NSDictionary
+                let sunrise = sys.valueForKey("sunrise") as? NSDate
+                let sunset =  sys.valueForKey("sunset") as? NSDate
+                
+                if let sunrise = sunrise, sunset = sunset {
+                    json["sys"]["sunrise"] = JSON(self.dateFormatter.stringFromDate(sunrise))
+                    json["sys"]["sunset"] = JSON(self.dateFormatter.stringFromDate(sunset))
+                }
+                
+                let weather : WeatherInfo = WeatherInfo(data: json)
                 self.weatherInfo = weather
-                print(weather.description)
                 callbackBlock?(result: Result.Success(weather))
                 
             } else {
@@ -75,9 +90,22 @@ class WeatherHandler : NSObject {
             (error, result) -> Void in
             
             if let result = result {
-                let weather : WeatherInfo = WeatherInfo(data: JSON(result))
+                
+                var json = JSON(result)
+                
+                // Fixes a problem with sunrise and sunset information. It wasn't being correctly transfered when converting to JSON.
+                let sys = (result as NSDictionary)["sys"] as! NSDictionary
+                let sunrise = sys.valueForKey("sunrise") as? NSDate
+                let sunset =  sys.valueForKey("sunset") as? NSDate
+                
+                if let sunrise = sunrise, sunset = sunset {
+                    json["sys"]["sunrise"] = JSON(self.dateFormatter.stringFromDate(sunrise))
+                    json["sys"]["sunset"] = JSON(self.dateFormatter.stringFromDate(sunset))
+                }
+                
+                let weather : WeatherInfo = WeatherInfo(data: json)
                 self.weatherInfo = weather
-                print(weather.description)
+               
                 callbackBlock?(result: Result.Success(weather))
                 
             } else {

@@ -8,6 +8,11 @@
 
 import SwiftyJSON
 
+public enum DayTime : String {
+    case Day
+    case Night
+}
+
 public class WeatherInfo {
     
     var cityName : String
@@ -21,6 +26,9 @@ public class WeatherInfo {
     var humidity : Double
     var windSpeed : Double
     var windDegree : Double
+    var sunrise : NSDate?
+    var sunset : NSDate?
+    var dayTime : DayTime?
     
     var description : String {
         get {
@@ -41,7 +49,7 @@ public class WeatherInfo {
         // Location
         self.cityName = data["name"].stringValue
         self.country = data["sys"]["country"].stringValue
-        
+    
         // Weather
         self.weather = data["weather"][0]["main"].stringValue
         
@@ -58,5 +66,15 @@ public class WeatherInfo {
         self.pressure = data["main"]["pressure"].doubleValue
         self.seaLevel = data["main"]["sea_level"].doubleValue
         self.humidity = data["main"]["humidity"].doubleValue
+        
+        let sunriseString = data["sys"]["sunrise"].stringValue
+        let sunsetString = data["sys"]["sunset"].stringValue
+        
+        self.sunrise = WeatherHandler.sharedInstance.dateFormatter.dateFromString(sunriseString)
+        self.sunset = WeatherHandler.sharedInstance.dateFormatter.dateFromString(sunsetString)
+        
+        let now = NSDate()
+        self.dayTime = (now > sunrise && now < sunset) ? .Day : .Night
+    
     }
 }
