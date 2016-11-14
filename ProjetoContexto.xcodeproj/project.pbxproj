@@ -20,6 +20,7 @@
 		1F7B18601DD0C21D00987234 /* ResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7B185E1DD0C21D00987234 /* ResultType.swift */; };
 		1F7B18621DD0C22E00987234 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7B18611DD0C22E00987234 /* Error.swift */; };
 		1FF2B9B21DD0CD59003A8FCC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF2B9B11DD0CD59003A8FCC /* Extensions.swift */; };
+		1FF46CD11DD9F0E70034FC9D /* PreferredLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF46CD01DD9F0E70034FC9D /* PreferredLocation.swift */; };
 		33A026EE9A0414F7F5F0FE73 /* Pods_ProjetoContexto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430C84CDFE99D6CD982D1827 /* Pods_ProjetoContexto.framework */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		1F7B185E1DD0C21D00987234 /* ResultType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultType.swift; sourceTree = "<group>"; };
 		1F7B18611DD0C22E00987234 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		1FF2B9B11DD0CD59003A8FCC /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		1FF46CD01DD9F0E70034FC9D /* PreferredLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferredLocation.swift; sourceTree = "<group>"; };
 		430C84CDFE99D6CD982D1827 /* Pods_ProjetoContexto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ProjetoContexto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD5DDF070258ABFF967D52AD /* Pods-ProjetoContexto.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjetoContexto.release.xcconfig"; path = "Pods/Target Support Files/Pods-ProjetoContexto/Pods-ProjetoContexto.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -92,6 +94,7 @@
 			children = (
 				1F27C9FE1DD0B9CC003CFC42 /* LocationHandler.swift */,
 				1F27C9FF1DD0B9CC003CFC42 /* LocationModel.swift */,
+				1FF46CD01DD9F0E70034FC9D /* PreferredLocation.swift */,
 			);
 			name = Location;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 				1F7B185F1DD0C21D00987234 /* Result.swift in Sources */,
 				1F27C9EE1DD0B92D003CFC42 /* ViewController.swift in Sources */,
 				1F7B18621DD0C22E00987234 /* Error.swift in Sources */,
+				1FF46CD11DD9F0E70034FC9D /* PreferredLocation.swift in Sources */,
 				1F27C9EC1DD0B92D003CFC42 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

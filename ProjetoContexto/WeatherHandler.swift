@@ -122,7 +122,7 @@ class WeatherHandler : NSObject {
         
         let locationManager = LocationHandler.sharedInstance
         
-        if let coordinates = locationManager.location?.coordinates {
+        if let coordinates = locationManager.location?.location.coordinate {
             //Updates the weatherInfo object.
             getWeatherInfoWithCoordinates(coordinates, callbackBlock: nil)
         }
@@ -132,7 +132,7 @@ class WeatherHandler : NSObject {
         
         let locationManager = LocationHandler.sharedInstance
         
-        if let coordinates = locationManager.location?.coordinates {
+        if let coordinates = locationManager.location?.location.coordinate {
             //Updates the weatherInfo object.
             getWeatherInfoWithCoordinates(coordinates, callbackBlock: nil)
         }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LocationHandlerDelegate, WeatherHandlerDelegate {
 
@@ -28,6 +29,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
        
         locationManager.delegates.append(self)
         weatherManager.delegates.append(self)
+        
+        registerPreferredLocations()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,6 +63,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    func registerPreferredLocations() {
+        
+        let home = PreferredLocation(name: "Home", location: CLLocation(latitude: -8.051622, longitude: -34.905936), rangeInMeters: 30.0)
+        locationManager.registerLocation(home)
+        
+        let cin = PreferredLocation(name: "CIn", location: CLLocation(latitude: -8.055393, longitude: -34.951784), rangeInMeters: 100.0)
+        locationManager.registerLocation(cin)
+
+    }
+    
     func locationWasUpdated(location: LocationModel) {
         
         let key = "Location"
@@ -68,6 +82,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         locationData.append(DataValue("longitude", location.longitude.description))
         locationData.append(DataValue("altitude", location.altitude.description))
         locationData.append(DataValue("speed", location.speed.description))
+        
+        
+        if let preferredLocation = location.preferredLocation {
+            locationData.append(DataValue("currentLocation", preferredLocation.name))
+        }
         
         if !dataHeaders.contains(key) {
             dataHeaders.append(key)

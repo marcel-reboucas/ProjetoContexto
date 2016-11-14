@@ -33,6 +33,18 @@ class LocationHandler: NSObject, CLLocationManagerDelegate  {
         }
     }
     
+    private var userPreferredLocations = [PreferredLocation]() {
+        didSet {
+            // keeps the array sorted by range
+            userPreferredLocations.sortInPlace { (lhs: PreferredLocation, rhs: PreferredLocation) -> Bool in
+                return lhs.rangeInMeters < rhs.rangeInMeters
+            }
+        }
+    }
+    
+    let timeBetweenUpdates = 10.0
+    var timeCounter = 10.0
+    
     private override init() {
         super.init()
         self.locationManager.delegate = self
@@ -70,6 +82,15 @@ class LocationHandler: NSObject, CLLocationManagerDelegate  {
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         
+        
+        if timeCounter < timeBetweenUpdates {
+            timeCounter = timeCounter + 1.0
+            print(timeCounter)
+            return
+        }
+        
+        timeCounter = 0.0
+        
         let geocoder = CLGeocoder()
         
         geocoder.reverseGeocodeLocation(newLocation, completionHandler: { (placemarks, error) -> Void in
@@ -89,7 +110,31 @@ class LocationHandler: NSObject, CLLocationManagerDelegate  {
                 
                 //not safe
                 let city = userInfo["city"]!!
-                self.location = LocationModel(location: newLocation, city: city)            }
+                
+                var locationModel = LocationModel(location: newLocation, city: city)
+                locationModel.preferredLocation = self.getClosestPreferredLocation(locationModel)
+                
+                self.location = locationModel
+            }
         })
+    }
+    
+    func registerLocation(location: PreferredLocation) {
+        userPreferredLocations.append(location)
+    }
+    
+    func getClosestPreferredLocation(locationModel: LocationModel) -> PreferredLocation? {
+    
+        let currentLocation = locationModel.location
+        var closestPreferredLocation : PreferredLocation?
+        
+        for preferredLocation in userPreferredLocations {
+            if currentLocation.distanceFromLocation(preferredLocation.location) < preferredLocation.rangeInMeters {
+                closestPreferredLocation = preferredLocation
+                break
+            }
+        }
+        
+        return closestPreferredLocation
     }
 }
