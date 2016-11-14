@@ -23,3 +23,11 @@ public func <(lhs: NSDate, rhs: NSDate) -> Bool {
 }
 
 extension NSDate: Comparable { }
+
+extension Dictionary {
+    subscript(i:Int) -> (key:Key,value:Value) {
+        get {
+            return self[startIndex.advancedBy(i)]
+        }
+    }
+}

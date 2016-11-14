@@ -34,7 +34,8 @@ class WeatherHandler : NSObject {
             }
         }
     }
-    private var timedFunction : NSTimer?
+    private var timedUpdates : NSTimer?
+    private var updateOnce : NSTimer?
     var timeBetweenUpdates : NSTimeInterval = 10.0
     
     private override init() {
@@ -46,11 +47,12 @@ class WeatherHandler : NSObject {
         super.init()
         
         updateCurrentWeatherInfo()
-        timedFunction = NSTimer.scheduledTimerWithTimeInterval(timeBetweenUpdates, target: self, selector:  #selector(WeatherHandler.updateCurrentWeatherInfo), userInfo: nil, repeats: true)
+        updateOnce = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector:  #selector(WeatherHandler.updateCurrentWeatherOnce), userInfo: nil, repeats: true)
+        timedUpdates = NSTimer.scheduledTimerWithTimeInterval(timeBetweenUpdates, target: self, selector:  #selector(WeatherHandler.updateCurrentWeatherInfo), userInfo: nil, repeats: true)
     }
     
     deinit {
-        timedFunction?.invalidate()
+        timedUpdates?.invalidate()
     }
 
     func getWeatherInfoWithCoordinates(coordinates : CLLocationCoordinate2D, callbackBlock: WeatherResultBlock?) {
@@ -124,5 +126,17 @@ class WeatherHandler : NSObject {
             //Updates the weatherInfo object.
             getWeatherInfoWithCoordinates(coordinates, callbackBlock: nil)
         }
+    }
+    
+    func updateCurrentWeatherOnce() {
+        
+        let locationManager = LocationHandler.sharedInstance
+        
+        if let coordinates = locationManager.location?.coordinates {
+            //Updates the weatherInfo object.
+            getWeatherInfoWithCoordinates(coordinates, callbackBlock: nil)
+        }
+        
+        self.updateOnce?.invalidate()
     }
 }
