@@ -15,6 +15,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     let locationManager = LocationHandler.sharedInstance
     let weatherManager = WeatherHandler.sharedInstance
+    let healthManager = HealthHandler.sharedInstance
+
     
     // Maps a key to a value
     typealias DataValue = (name: String, value: String)
