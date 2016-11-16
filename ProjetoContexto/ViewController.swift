@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LocationHandlerDelegate, WeatherHandlerDelegate {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -17,11 +17,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let weatherManager = WeatherHandler.sharedInstance
     let healthManager = HealthHandler.sharedInstance
 
-    
     // Maps a key to a value
     typealias DataValue = (name: String, value: String)
     var dataHeaders = [String]()
     var dataValues = [String : [DataValue]]()
+    
+    //MARK: View life-cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +34,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         weatherManager.delegates.append(self)
         
         registerPreferredLocations()
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,6 +41,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Dispose of any resources that can be recreated.
     }
 
+    //MARK: TableViewDelegate
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return dataHeaders.count
     }
@@ -65,6 +67,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    //MARK: Manager Preferences
+    
     func registerPreferredLocations() {
         
         let home = PreferredLocation(name: "Home", location: CLLocation(latitude: -8.051622, longitude: -34.905936), rangeInMeters: 30.0)
@@ -74,6 +78,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         locationManager.registerLocation(cin)
 
     }
+
+}
+
+extension ViewController : LocationHandlerDelegate {
     
     func locationWasUpdated(location: LocationModel) {
         
@@ -97,6 +105,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         dataValues[key] = locationData
         tableView.reloadData()
     }
+}
+
+extension ViewController : WeatherHandlerDelegate {
     
     func weatherWasUpdated(weather: WeatherInfo) {
         
@@ -128,6 +139,4 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         dataValues[key] = weatherData
         tableView.reloadData()
     }
-
 }
-

@@ -86,7 +86,6 @@ class LocationHandler: NSObject, CLLocationManagerDelegate  {
         
         if timeCounter < timeBetweenUpdates {
             timeCounter = timeCounter + 1.0
-            print(timeCounter)
             return
         }
         
