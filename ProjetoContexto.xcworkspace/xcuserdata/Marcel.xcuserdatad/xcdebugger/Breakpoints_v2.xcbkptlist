@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProjetoContexto/HealthHandler.swift"
-            timestampString = "501011024.804632"
+            timestampString = "501015841.419478"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "authorizeHealthKit(_:completion:)"
             landmarkType = "5">
          </BreakpointContent>

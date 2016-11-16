@@ -102,19 +102,13 @@ class LocationHandler: NSObject, CLLocationManagerDelegate  {
                 
                 let placemark = placemarks!.last! as CLPlacemark
                 
-                let userInfo = [
-                    "city":     placemark.locality,
-                    "state":    placemark.administrativeArea,
-                    "country":  placemark.country
-                ]
-                
-                //not safe
-                let city = userInfo["city"]!!
-                
-                var locationModel = LocationModel(location: newLocation, city: city)
-                locationModel.preferredLocation = self.getClosestPreferredLocation(locationModel)
-                
-                self.location = locationModel
+                if let city = placemark.locality {
+                    
+                    var locationModel = LocationModel(location: newLocation, city: city)
+                    locationModel.preferredLocation = self.getClosestPreferredLocation(locationModel)
+                    
+                    self.location = locationModel
+                }
             }
         })
     }
@@ -124,7 +118,7 @@ class LocationHandler: NSObject, CLLocationManagerDelegate  {
     }
     
     func getClosestPreferredLocation(locationModel: LocationModel) -> PreferredLocation? {
-    
+        
         let currentLocation = locationModel.location
         var closestPreferredLocation : PreferredLocation?
         

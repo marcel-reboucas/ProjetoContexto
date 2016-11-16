@@ -36,12 +36,12 @@ class HealthHandler: NSObject  {
     override init() {
         
         healthStore = HKHealthStore.isHealthDataAvailable() ? HKHealthStore() : nil
-        // We cannot access the user's HealthKit data without specific permission.
         
         super.init()
         
         if let healthStore = healthStore {
             
+            // We cannot access the user's HealthKit data without specific permission.
             // Seek authorization in HealthKitManager.swift.
             authorizeHealthKit (healthStore) { (authorized,  error) -> Void in
                 if authorized {
@@ -81,7 +81,6 @@ class HealthHandler: NSObject  {
         // State the health data type(s) we want to write from HealthKit.
         let healthDataToWrite : Set<HKSampleType> = Set()
         
-        // Just in case OneHourWalker makes its way to an iPad...
         if !HKHealthStore.isHealthDataAvailable() {
             print("Can't access HealthKit.")
         }
