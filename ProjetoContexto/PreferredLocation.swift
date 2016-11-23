@@ -20,3 +20,9 @@ struct PreferredLocation {
         self.rangeInMeters = rangeInMeters
     }
 }
+
+extension PreferredLocation : Equatable {}
+
+func ==(location1: PreferredLocation, location2: PreferredLocation) -> Bool {
+    return (location1.name == location2.name && location1.location == location2.location)
+}

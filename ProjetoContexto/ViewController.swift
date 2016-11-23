@@ -34,8 +34,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         weatherManager.delegates.append(self)
         healthManager.delegates.append(self)
 
-        
         registerPreferredLocations()
+        registerBeacons()
     }
 
     override func didReceiveMemoryWarning() {
@@ -80,7 +80,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         locationManager.registerLocation(cin)
 
     }
-
+    
+    func registerBeacons() {
+        
+        let contextClass = BeaconInfo(name: "Context Class", uuid: NSUUID(UUIDString: "B0702880-A295-A8AB-F734-031A98A512DE")! , majorValue: 5, minorValue: 1000)
+        locationManager.registerBeacon(contextClass)
+    }
 }
 
 extension ViewController : LocationHandlerDelegate {
@@ -98,6 +103,18 @@ extension ViewController : LocationHandlerDelegate {
         
         if let preferredLocation = location.preferredLocation {
             locationData.append(DataValue("currentLocation", preferredLocation.name))
+        }
+        
+        if let beaconsInRange = location.beaconsInRange {
+            
+            for (index, beacon) in beaconsInRange.enumerate() {
+                locationData.append(DataValue("Beacon \(index) Name:", beacon.name))
+               
+                if let beaconData = beacon.lastSeenBeacon {
+                    locationData.append(DataValue("Beacon \(index) Proximity:", "\(beaconData.proximity.description)"))
+                }
+            }
+            
         }
         
         if !dataHeaders.contains(key) {
@@ -147,8 +164,6 @@ extension ViewController : HealthHandlerDelegate {
     
     // TODO: NOT OPTIMAL - IS BEING CALLED 4 TIMES AT EACH UPDATE.
     func healthWasUpdated(healthModel: HealthModel) {
-        
-        print("health was updated")
         
         let key = "Health"
         var healthData = [DataValue]()

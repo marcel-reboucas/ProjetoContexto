@@ -42,8 +42,13 @@ class LocationHandler: NSObject, CLLocationManagerDelegate  {
         }
     }
     
-    let timeBetweenUpdates = 10.0
-    var timeCounter = 10.0
+    private var registeredBeacons = [BeaconInfo]()
+    
+    let timeBetweenLocationUpdates = 10.0
+    var locationTimeCounter = 10.0
+    
+    let timeBetweenBeaconUpdates = 10.0
+    var beaconTimeCounter = 10.0
     
     private override init() {
         super.init()
@@ -56,6 +61,10 @@ class LocationHandler: NSObject, CLLocationManagerDelegate  {
     deinit {
         self.locationManager.delegate = nil
         self.locationManager.stopUpdatingLocation()
+        
+        for beacon in registeredBeacons {
+            stopMonitoringBeacon(beacon)
+        }
     }
     
     @objc func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -84,12 +93,12 @@ class LocationHandler: NSObject, CLLocationManagerDelegate  {
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         
-        if timeCounter < timeBetweenUpdates {
-            timeCounter = timeCounter + 1.0
+        if locationTimeCounter < timeBetweenLocationUpdates {
+            locationTimeCounter = locationTimeCounter + 1.0
             return
         }
         
-        timeCounter = 0.0
+        locationTimeCounter = 0.0
         
         let geocoder = CLGeocoder()
         
@@ -106,6 +115,7 @@ class LocationHandler: NSObject, CLLocationManagerDelegate  {
                     
                     var locationModel = LocationModel(location: newLocation, city: city)
                     locationModel.preferredLocation = self.getClosestPreferredLocation(locationModel)
+                    locationModel.beaconsInRange = self.location?.beaconsInRange
                     
                     self.location = locationModel
                 }
@@ -115,6 +125,10 @@ class LocationHandler: NSObject, CLLocationManagerDelegate  {
     
     func registerLocation(location: PreferredLocation) {
         userPreferredLocations.append(location)
+    }
+    
+    func removeLocation(location: PreferredLocation) {
+        userPreferredLocations.removeObject(location)
     }
     
     func getClosestPreferredLocation(locationModel: LocationModel) -> PreferredLocation? {
@@ -130,5 +144,71 @@ class LocationHandler: NSObject, CLLocationManagerDelegate  {
         }
         
         return closestPreferredLocation
+    }
+    
+    //MARK: Beacon
+    
+    func registerBeacon(beacon: BeaconInfo) {
+        if !registeredBeacons.contains(beacon) {
+            print("Registered beacon: \(beacon.name)")
+            registeredBeacons.append(beacon)
+            startMonitoringBeacon(beacon)
+        }
+    }
+    
+    func removeBeacon(beacon: BeaconInfo) {
+        if registeredBeacons.contains(beacon) {
+            registeredBeacons.removeObject(beacon)
+            stopMonitoringBeacon(beacon)
+        }
+    }
+    
+    private func beaconRegionWithBeacon(beacon: BeaconInfo) -> CLBeaconRegion {
+        let beaconRegion = CLBeaconRegion(proximityUUID: beacon.uuid, major: beacon.majorValue, minor: beacon.minorValue, identifier: beacon.name)
+        return beaconRegion
+    }
+    
+    private func startMonitoringBeacon(beacon: BeaconInfo) {
+        let beaconRegion = beaconRegionWithBeacon(beacon)
+        locationManager.startMonitoringForRegion(beaconRegion)
+        locationManager.startRangingBeaconsInRegion(beaconRegion)
+    }
+    
+    private func stopMonitoringBeacon(beacon: BeaconInfo) {
+        let beaconRegion = beaconRegionWithBeacon(beacon)
+        locationManager.stopMonitoringForRegion(beaconRegion)
+        locationManager.stopRangingBeaconsInRegion(beaconRegion)
+    }
+    
+    func locationManager(manager: CLLocationManager, monitoringDidFailForRegion region: CLRegion?, withError error: NSError) {
+        print("Failed monitoring region: \(error.description)")
+    }
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        print("Location manager failed: \(error.description)")
+    }
+    
+    func locationManager(manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], inRegion region: CLBeaconRegion) {
+        
+        if beaconTimeCounter < timeBetweenBeaconUpdates {
+            beaconTimeCounter = beaconTimeCounter + 1.0
+            return
+        }
+        
+        beaconTimeCounter = 0.0
+        
+        var beaconsInRange = [BeaconInfo]()
+        
+        for beacon in beacons {
+            for registeredBeacon in registeredBeacons {
+                if beacon == registeredBeacon {
+                    registeredBeacon.lastSeenBeacon = beacon
+                    beaconsInRange.append(registeredBeacon)
+                    print("Found beacon! \(registeredBeacon.name)")
+                }
+            }
+        }
+        
+        self.location?.beaconsInRange = beaconsInRange
     }
 }

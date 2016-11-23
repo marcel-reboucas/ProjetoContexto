@@ -26,7 +26,6 @@ class HealthHandler: NSObject  {
     var healthModel : HealthModel? {
         didSet {
             if let healthModel = self.healthModel {
-                print("chamando delegate health")
                 for delegate in delegates { delegate.healthWasUpdated(healthModel)}
             }
         }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F1C9E4A1DE5C54400E5211E /* BeaconInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1C9E491DE5C54400E5211E /* BeaconInfo.swift */; };
 		1F213FAE1DD0BBBC00B8BEEF /* WeatherHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F213FAD1DD0BBBC00B8BEEF /* WeatherHandler.swift */; };
 		1F27C9EC1DD0B92D003CFC42 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F27C9EB1DD0B92D003CFC42 /* AppDelegate.swift */; };
 		1F27C9EE1DD0B92D003CFC42 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F27C9ED1DD0B92D003CFC42 /* ViewController.swift */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		19FF5DE19043A7736A89AC6B /* Pods-ProjetoContexto.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjetoContexto.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ProjetoContexto/Pods-ProjetoContexto.debug.xcconfig"; sourceTree = "<group>"; };
+		1F1C9E491DE5C54400E5211E /* BeaconInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconInfo.swift; sourceTree = "<group>"; };
 		1F213FAD1DD0BBBC00B8BEEF /* WeatherHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherHandler.swift; sourceTree = "<group>"; };
 		1F213FB41DD0BECB00B8BEEF /* ProjetoContexto-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ProjetoContexto-Bridging-Header.h"; sourceTree = "<group>"; };
 		1F27C9E81DD0B92D003CFC42 /* ProjetoContexto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjetoContexto.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,6 +107,7 @@
 				1F27C9FE1DD0B9CC003CFC42 /* LocationHandler.swift */,
 				1F27C9FF1DD0B9CC003CFC42 /* LocationModel.swift */,
 				1FF46CD01DD9F0E70034FC9D /* PreferredLocation.swift */,
+				1F1C9E491DE5C54400E5211E /* BeaconInfo.swift */,
 			);
 			name = Location;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				1F7702E81DDCBDB900E37F53 /* HealthModel.swift in Sources */,
 				1F27CA011DD0B9CC003CFC42 /* LocationModel.swift in Sources */,
 				1F27CA001DD0B9CC003CFC42 /* LocationHandler.swift in Sources */,
+				1F1C9E4A1DE5C54400E5211E /* BeaconInfo.swift in Sources */,
 				1F7B185B1DD0C11F00987234 /* WeatherInfo.swift in Sources */,
 				1F213FAE1DD0BBBC00B8BEEF /* WeatherHandler.swift in Sources */,
 				1F7B18601DD0C21D00987234 /* ResultType.swift in Sources */,

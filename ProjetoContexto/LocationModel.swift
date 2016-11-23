@@ -18,6 +18,7 @@ struct LocationModel {
     var speed : CLLocationSpeed
     var currentCity : String
     var preferredLocation : PreferredLocation?
+    var beaconsInRange : [BeaconInfo]?
     
     var description : String {
         get {
