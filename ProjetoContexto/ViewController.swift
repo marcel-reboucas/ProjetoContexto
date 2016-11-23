@@ -32,6 +32,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
        
         locationManager.delegates.append(self)
         weatherManager.delegates.append(self)
+        healthManager.delegates.append(self)
+
         
         registerPreferredLocations()
     }
@@ -137,6 +139,41 @@ extension ViewController : WeatherHandlerDelegate {
         }
         
         dataValues[key] = weatherData
+        tableView.reloadData()
+    }
+}
+
+extension ViewController : HealthHandlerDelegate {
+    
+    // TODO: NOT OPTIMAL - IS BEING CALLED 4 TIMES AT EACH UPDATE.
+    func healthWasUpdated(healthModel: HealthModel) {
+        
+        print("health was updated")
+        
+        let key = "Health"
+        var healthData = [DataValue]()
+        
+        if let steps = healthModel.steps {
+            healthData.append(DataValue("steps", steps.description))
+        }
+        
+        if let stairFlights = healthModel.stairFlights {
+            healthData.append(DataValue("stair flights", stairFlights.description))
+        }
+        
+        if let walkingDistance = healthModel.walkingRunningDistance {
+            healthData.append(DataValue("walking distance", walkingDistance.description))
+        }
+        
+        if let cyclingDistance = healthModel.cyclingDistance {
+            healthData.append(DataValue("cycling distance", cyclingDistance.description))
+        }
+        
+        if !dataHeaders.contains(key) {
+            dataHeaders.append(key)
+        }
+        
+        dataValues[key] = healthData
         tableView.reloadData()
     }
 }

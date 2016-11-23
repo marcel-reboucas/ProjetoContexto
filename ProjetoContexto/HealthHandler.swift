@@ -26,6 +26,7 @@ class HealthHandler: NSObject  {
     var healthModel : HealthModel? {
         didSet {
             if let healthModel = self.healthModel {
+                print("chamando delegate health")
                 for delegate in delegates { delegate.healthWasUpdated(healthModel)}
             }
         }
@@ -33,9 +34,14 @@ class HealthHandler: NSObject  {
     
     let healthStore: HKHealthStore?
     
+    private var timedUpdates : NSTimer?
+    var timeBetweenUpdates : NSTimeInterval = 30.0
+
+    
     override init() {
         
         healthStore = HKHealthStore.isHealthDataAvailable() ? HKHealthStore() : nil
+        healthModel = HealthModel()
         
         super.init()
         
@@ -46,7 +52,7 @@ class HealthHandler: NSObject  {
             authorizeHealthKit (healthStore) { (authorized,  error) -> Void in
                 if authorized {
                     print("Authorized")
-                    self.updateInformation()
+                    self.updateCurrentHealthInformation()
                 } else {
                     if error != nil { print(error) }
                     print("Permission denied.")
@@ -54,10 +60,12 @@ class HealthHandler: NSObject  {
             }
         }
         
+        timedUpdates = NSTimer.scheduledTimerWithTimeInterval(timeBetweenUpdates, target: self, selector:  #selector(HealthHandler.updateCurrentHealthInformation), userInfo: nil, repeats: true)
+        
         print("Starting HealthHandler")
     }
     
-    func updateInformation() {
+    func updateCurrentHealthInformation() {
         
         let now = NSDate()
         let startOfToday = NSCalendar.currentCalendar().startOfDayForDate(now)
@@ -130,6 +138,7 @@ class HealthHandler: NSObject  {
                 }
             }
             print("Flights today: \(totalFlightsClimbed)")
+            self.healthModel?.stairFlights = totalFlightsClimbed
         })
     }
     
@@ -149,6 +158,7 @@ class HealthHandler: NSObject  {
                 }
             }
             print("Steps today: \(totalSteps)")
+            self.healthModel?.steps = totalSteps
         })
     }
     
@@ -174,6 +184,13 @@ class HealthHandler: NSObject  {
                 }
             }
             print("Distance today: \(totalDistance) meters.")
+            
+            switch type {
+            case .Cycling:
+                self.healthModel?.cyclingDistance = totalDistance
+            case .WalkingRunning:
+                self.healthModel?.walkingRunningDistance = totalDistance
+            }
         })
     }
     

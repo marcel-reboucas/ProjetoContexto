@@ -8,5 +8,10 @@
 
 struct HealthModel {
     
+    var steps: Double?
+    var stairFlights: Double?
+    var walkingRunningDistance: Double?
+    var cyclingDistance: Double?
+    
 }
 
