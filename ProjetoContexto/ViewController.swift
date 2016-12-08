@@ -97,14 +97,14 @@ extension ViewController : LocationHandlerDelegate {
         let key = "Location"
         var locationData = [DataValue]()
         
-        locationData.append(DataValue("latitude", location.latitude.description))
-        locationData.append(DataValue("longitude", location.longitude.description))
-        locationData.append(DataValue("altitude", location.altitude.description))
-        locationData.append(DataValue("speed", location.speed.description))
+        locationData.append(DataValue("Latitude", location.latitude.description))
+        locationData.append(DataValue("Longitude", location.longitude.description))
+        locationData.append(DataValue("Altitude", location.altitude.description))
+        locationData.append(DataValue("Speed", location.speed.description))
         
         
         if let preferredLocation = location.preferredLocation {
-            locationData.append(DataValue("currentLocation", preferredLocation.name))
+            locationData.append(DataValue("Current Location", preferredLocation.name))
         }
         
         if let beaconsInRange = location.beaconsInRange {
@@ -135,22 +135,22 @@ extension ViewController : WeatherHandlerDelegate {
         let key = "Weather"
         var weatherData = [DataValue]()
         
-        weatherData.append(DataValue("region", weather.cityName))
-        weatherData.append(DataValue("country", weather.country))
-        weatherData.append(DataValue("weather", weather.weather))
-        weatherData.append(DataValue("temperature", weather.temperatureCurrent.description))
-        weatherData.append(DataValue("humidity", weather.humidity.description))
+        weatherData.append(DataValue("Region", weather.cityName))
+        weatherData.append(DataValue("Country", weather.country))
+        weatherData.append(DataValue("Weather", weather.weather))
+        weatherData.append(DataValue("Temperature", weather.temperatureCurrent.description))
+        weatherData.append(DataValue("Humidity", weather.humidity.description))
         
         if let sunrise = weather.sunrise {
-            weatherData.append(DataValue("sunrise", weatherManager.dateFormatter.stringFromDate(sunrise)))
+            weatherData.append(DataValue("Sunrise", weatherManager.dateFormatter.stringFromDate(sunrise)))
         }
         
         if let sunset = weather.sunset {
-            weatherData.append(DataValue("sunset", weatherManager.dateFormatter.stringFromDate(sunset)))
+            weatherData.append(DataValue("Sunset", weatherManager.dateFormatter.stringFromDate(sunset)))
         }
         
         if let dayTime = weather.dayTime {
-            weatherData.append(DataValue("dayTime", dayTime.rawValue))
+            weatherData.append(DataValue("DayTime", dayTime.rawValue))
         }
         
         if !dataHeaders.contains(key) {
@@ -171,19 +171,19 @@ extension ViewController : HealthHandlerDelegate {
         var healthData = [DataValue]()
         
         if let steps = healthModel.steps {
-            healthData.append(DataValue("steps", steps.description))
+            healthData.append(DataValue("Steps", steps.description))
         }
         
         if let stairFlights = healthModel.stairFlights {
-            healthData.append(DataValue("stair flights", stairFlights.description))
+            healthData.append(DataValue("Stair Flights", stairFlights.description))
         }
         
         if let walkingDistance = healthModel.walkingRunningDistance {
-            healthData.append(DataValue("walking distance", walkingDistance.description))
+            healthData.append(DataValue("Walking Distance", walkingDistance.description))
         }
         
         if let cyclingDistance = healthModel.cyclingDistance {
-            healthData.append(DataValue("cycling distance", cyclingDistance.description))
+            healthData.append(DataValue("Cycling Distance", cyclingDistance.description))
         }
         
         if !dataHeaders.contains(key) {
