@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import UIKit
 
 extension Array {
     func contains<T where T : Equatable>(obj: T) -> Bool {
@@ -50,6 +51,49 @@ extension CLProximity {
         case .Far:        return "Far";
         case .Near:       return "Near";
         case .Immediate:  return "Immediate";
+        }
+    }
+}
+
+
+extension UIDeviceOrientation : CustomStringConvertible {
+
+    public var description : String {
+        get {
+            switch self {
+            case .FaceDown:
+                return "FaceDown"
+            case .FaceUp:
+                return "FaceUp"
+            case .LandscapeLeft:
+                return "LandscapeLeft"
+            case .LandscapeRight:
+                return "LandscapeRight"
+            case .Portrait:
+                return "Portrait"
+            case .PortraitUpsideDown:
+                return "PortraitUpsideDown"
+            default:
+                return "Unknown"
+            }
+        }
+    }
+}
+
+extension UIDeviceBatteryState : CustomStringConvertible {
+    
+    public var description : String {
+        get {
+            switch self {
+            case .Charging:
+                return "Charging"
+            case .Full:
+                return "Full"
+            case .Unplugged:
+                return "Unplugged"
+            default:
+                return "Unknown"
+            }
         }
     }
 }

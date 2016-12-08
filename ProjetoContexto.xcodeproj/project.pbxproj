@@ -23,6 +23,8 @@
 		1F7B185F1DD0C21D00987234 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7B185D1DD0C21D00987234 /* Result.swift */; };
 		1F7B18601DD0C21D00987234 /* ResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7B185E1DD0C21D00987234 /* ResultType.swift */; };
 		1F7B18621DD0C22E00987234 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7B18611DD0C22E00987234 /* Error.swift */; };
+		1FE75B2C1DF991A20056CE30 /* DeviceHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE75B2B1DF991A20056CE30 /* DeviceHandler.swift */; };
+		1FE75B2E1DF9920A0056CE30 /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE75B2D1DF9920A0056CE30 /* DeviceInfo.swift */; };
 		1FF2B9B21DD0CD59003A8FCC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF2B9B11DD0CD59003A8FCC /* Extensions.swift */; };
 		1FF46CD11DD9F0E70034FC9D /* PreferredLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF46CD01DD9F0E70034FC9D /* PreferredLocation.swift */; };
 		33A026EE9A0414F7F5F0FE73 /* Pods_ProjetoContexto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430C84CDFE99D6CD982D1827 /* Pods_ProjetoContexto.framework */; };
@@ -50,6 +52,8 @@
 		1F7B185D1DD0C21D00987234 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		1F7B185E1DD0C21D00987234 /* ResultType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultType.swift; sourceTree = "<group>"; };
 		1F7B18611DD0C22E00987234 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		1FE75B2B1DF991A20056CE30 /* DeviceHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceHandler.swift; sourceTree = "<group>"; };
+		1FE75B2D1DF9920A0056CE30 /* DeviceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		1FF2B9B11DD0CD59003A8FCC /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1FF46CD01DD9F0E70034FC9D /* PreferredLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferredLocation.swift; sourceTree = "<group>"; };
 		430C84CDFE99D6CD982D1827 /* Pods_ProjetoContexto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ProjetoContexto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +94,7 @@
 		1F27C9EA1DD0B92D003CFC42 /* ProjetoContexto */ = {
 			isa = PBXGroup;
 			children = (
+				1FE75B2A1DF991860056CE30 /* Device */,
 				1F7702EB1DDCBF4500E37F53 /* ProjetoContexto.entitlements */,
 				1F7B185C1DD0C21300987234 /* Util */,
 				1F27CA041DD0BA46003CFC42 /* Supporting Files */,
@@ -160,6 +165,15 @@
 				1FF2B9B11DD0CD59003A8FCC /* Extensions.swift */,
 			);
 			name = Util;
+			sourceTree = "<group>";
+		};
+		1FE75B2A1DF991860056CE30 /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				1FE75B2B1DF991A20056CE30 /* DeviceHandler.swift */,
+				1FE75B2D1DF9920A0056CE30 /* DeviceInfo.swift */,
+			);
+			name = Device;
 			sourceTree = "<group>";
 		};
 		3212EFAD6FC033F8FE1EFF85 /* Frameworks */ = {
@@ -311,12 +325,14 @@
 				1F7702E81DDCBDB900E37F53 /* HealthModel.swift in Sources */,
 				1F27CA011DD0B9CC003CFC42 /* LocationModel.swift in Sources */,
 				1F27CA001DD0B9CC003CFC42 /* LocationHandler.swift in Sources */,
+				1FE75B2E1DF9920A0056CE30 /* DeviceInfo.swift in Sources */,
 				1F1C9E4A1DE5C54400E5211E /* BeaconInfo.swift in Sources */,
 				1F7B185B1DD0C11F00987234 /* WeatherInfo.swift in Sources */,
 				1F213FAE1DD0BBBC00B8BEEF /* WeatherHandler.swift in Sources */,
 				1F7B18601DD0C21D00987234 /* ResultType.swift in Sources */,
 				1FF2B9B21DD0CD59003A8FCC /* Extensions.swift in Sources */,
 				1F7702E61DDCBD7700E37F53 /* HealthHandler.swift in Sources */,
+				1FE75B2C1DF991A20056CE30 /* DeviceHandler.swift in Sources */,
 				1F7B185F1DD0C21D00987234 /* Result.swift in Sources */,
 				1F27C9EE1DD0B92D003CFC42 /* ViewController.swift in Sources */,
 				1F7B18621DD0C22E00987234 /* Error.swift in Sources */,

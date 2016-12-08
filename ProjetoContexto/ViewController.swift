@@ -16,6 +16,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let locationManager = LocationHandler.sharedInstance
     let weatherManager = WeatherHandler.sharedInstance
     let healthManager = HealthHandler.sharedInstance
+    let deviceManager = DeviceHandler.sharedInstance
 
     // Maps a key to a value
     typealias DataValue = (name: String, value: String)
@@ -33,6 +34,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         locationManager.delegates.append(self)
         weatherManager.delegates.append(self)
         healthManager.delegates.append(self)
+        deviceManager.delegates.append(self)
 
         registerPreferredLocations()
         registerBeacons()
@@ -189,6 +191,40 @@ extension ViewController : HealthHandlerDelegate {
         }
         
         dataValues[key] = healthData
+        tableView.reloadData()
+    }
+}
+
+extension ViewController : DeviceHandlerDelegate {
+    
+    func deviceWasUpdated(deviceInfo: DeviceInfo) {
+        
+        let key = "Device"
+        var deviceData = [DataValue]()
+        
+        if let batteryLevel = deviceInfo.batteryLevel {
+            deviceData.append(DataValue("Battery Level", batteryLevel.description))
+        }
+        
+        if let batteryState = deviceInfo.batteryState {
+            deviceData.append(DataValue("Battery State", "\(batteryState.description)"))
+        }
+        
+        if let orientation = deviceInfo.orientation {
+            deviceData.append(DataValue("Orientation", "\(orientation.description)"))
+        }
+        
+        if let time = deviceInfo.time {
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "HH:mm:ss"
+            deviceData.append(DataValue("Time", formatter.stringFromDate(time)))
+        }
+        
+        if !dataHeaders.contains(key) {
+            dataHeaders.append(key)
+        }
+        
+        dataValues[key] = deviceData
         tableView.reloadData()
     }
 }
