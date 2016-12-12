@@ -17,7 +17,7 @@ enum DistanceType {
     case Cycling
 }
 
-class HealthHandler: NSObject  {
+class HealthHandler: NSObject {
     
     // Singleton
     static let sharedInstance = HealthHandler()

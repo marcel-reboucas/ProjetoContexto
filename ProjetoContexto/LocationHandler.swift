@@ -13,7 +13,7 @@ protocol LocationHandlerDelegate {
     func locationWasUpdated(location : LocationModel)
 }
 
-class LocationHandler: NSObject, CLLocationManagerDelegate  {
+class LocationHandler: NSObject, CLLocationManagerDelegate {
     
     // Singleton
     static let sharedInstance = LocationHandler()
@@ -27,7 +27,7 @@ class LocationHandler: NSObject, CLLocationManagerDelegate  {
         }
     }
     var locationManager: CLLocationManager = CLLocationManager()
-    var minimumDistanceBetweenUpdates = 10.0 {
+    var minimumDistanceBetweenUpdates = 3.0 {
         didSet{
             self.locationManager.distanceFilter = minimumDistanceBetweenUpdates
         }
@@ -44,10 +44,10 @@ class LocationHandler: NSObject, CLLocationManagerDelegate  {
     
     private var registeredBeacons = [BeaconInfo]()
     
-    let timeBetweenLocationUpdates = 10.0
+    let timeBetweenLocationUpdates = 3.0
     var locationTimeCounter = 10.0
     
-    let timeBetweenBeaconUpdates = 10.0
+    let timeBetweenBeaconUpdates = 3.0
     var beaconTimeCounter = 10.0
     
     private override init() {
@@ -113,7 +113,7 @@ class LocationHandler: NSObject, CLLocationManagerDelegate  {
                 
                 if let city = placemark.locality {
                     
-                    var locationModel = LocationModel(location: newLocation, city: city)
+                    let locationModel = LocationModel(location: newLocation, city: city)
                     locationModel.preferredLocation = self.getClosestPreferredLocation(locationModel)
                     locationModel.beaconsInRange = self.location?.beaconsInRange
                     

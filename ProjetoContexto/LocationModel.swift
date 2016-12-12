@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-struct LocationModel {
+class LocationModel: NSObject {
 
     var location : CLLocation
     var latitude : CLLocationDegrees
@@ -20,7 +20,7 @@ struct LocationModel {
     var preferredLocation : PreferredLocation?
     var beaconsInRange : [BeaconInfo]?
     
-    var description : String {
+    override var description : String {
         get {
             return "(Latitude: \(latitude), " +
                     "Longitude: \(longitude), " +

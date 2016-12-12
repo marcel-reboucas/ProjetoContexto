@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct DeviceInfo {
+class DeviceInfo: NSObject {
     var batteryLevel: Float?
     var batteryState: UIDeviceBatteryState?
     var orientation: UIDeviceOrientation?

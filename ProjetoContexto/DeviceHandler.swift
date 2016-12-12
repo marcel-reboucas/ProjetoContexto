@@ -54,7 +54,7 @@ class DeviceHandler: NSObject {
     
     func updateCurrentDeviceInfo() {
         
-        var devInfo = DeviceInfo()
+        let devInfo = DeviceInfo()
         
         // Battery
         

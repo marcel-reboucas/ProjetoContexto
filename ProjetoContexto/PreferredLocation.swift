@@ -8,7 +8,7 @@
 
 import CoreLocation
 
-struct PreferredLocation {
+public class PreferredLocation : NSObject {
     
     var name: String
     var location : CLLocation
@@ -21,8 +21,17 @@ struct PreferredLocation {
     }
 }
 
-extension PreferredLocation : Equatable {}
+extension PreferredLocation : Comparable {}
 
-func ==(location1: PreferredLocation, location2: PreferredLocation) -> Bool {
-    return (location1.name == location2.name && location1.location == location2.location)
+public func ==(location1: PreferredLocation, location2: PreferredLocation) -> Bool {
+    return location1.name == location2.name
 }
+
+public func <(location1: PreferredLocation, location2: PreferredLocation) -> Bool {
+    return false
+}
+
+public func >(location1: PreferredLocation, location2: PreferredLocation) -> Bool {
+    return false
+}
+

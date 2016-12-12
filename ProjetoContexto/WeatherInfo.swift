@@ -13,7 +13,7 @@ public enum DayTime : String {
     case Night
 }
 
-public class WeatherInfo {
+public class WeatherInfo : NSObject {
     
     var cityName : String
     var country : String
@@ -30,7 +30,7 @@ public class WeatherInfo {
     var sunset : NSDate?
     var dayTime : DayTime?
     
-    var description : String {
+    public override var description : String {
         get {
             return "(cityName: \(cityName), " +
                 "country: \(country), " +
@@ -74,6 +74,9 @@ public class WeatherInfo {
         self.sunset = WeatherHandler.sharedInstance.dateFormatter.dateFromString(sunsetString)
         
         let now = NSDate()
+        
+        super.init()
+        
         self.dayTime = (now > sunrise && now < sunset) ? .Day : .Night
     
     }

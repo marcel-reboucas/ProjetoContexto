@@ -17,6 +17,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let weatherManager = WeatherHandler.sharedInstance
     let healthManager = HealthHandler.sharedInstance
     let deviceManager = DeviceHandler.sharedInstance
+    let ruleManager = RuleHandler.sharedInstance
 
     // Maps a key to a value
     typealias DataValue = (name: String, value: String)
@@ -24,6 +25,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var dataValues = [String : [DataValue]]()
     
     //MARK: View life-cycle
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,9 +37,56 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         weatherManager.delegates.append(self)
         healthManager.delegates.append(self)
         deviceManager.delegates.append(self)
+        ruleManager.delegates.append(self)
 
-        registerPreferredLocations()
-        registerBeacons()
+        //Preferences
+        let home = PreferredLocation(name: "Home", location: CLLocation(latitude: -8.051622, longitude: -34.905936), rangeInMeters: 30.0)
+        locationManager.registerLocation(home)
+        
+        let cin = PreferredLocation(name: "CIn", location: CLLocation(latitude: -8.055393, longitude: -34.951784), rangeInMeters: 100.0)
+        locationManager.registerLocation(cin)
+    
+    
+        let contextClassBeacon = BeaconInfo(name: "Context Class", uuid: NSUUID(UUIDString: "B0702880-A295-A8AB-F734-031A98A512DE")! , majorValue: 5, minorValue: 1000)
+        locationManager.registerBeacon(contextClassBeacon)
+
+        
+        //Rules
+  
+        let date = NSDate()
+        let cal = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+        let startHour = cal.dateBySettingHour(13, minute: 0, second: 0, ofDate: date, options: [])!
+        let endHour = cal.dateBySettingHour(15, minute: 0, second: 0, ofDate: date, options: [])!
+        
+        let contextClassBeginTimeRule = ContextRule<NSDate>(attribute: .DeviceTime, operation: .IsGreaterThan, value: startHour)
+        
+        let contextClassEndTimeRule = ContextRule<NSDate>(attribute: .DeviceTime, operation: .IsLesserThan, value: endHour)
+        
+        let contextClassRoomRule = ContextRule<BeaconInfo>(attribute: .BeaconsInRange, operation: .Contains, value: contextClassBeacon)
+
+        let contextClassRule = ContextRuleSet(rules: [contextClassBeginTimeRule, contextClassEndTimeRule, contextClassRoomRule], rulesAreTrueCallback: {
+            
+            let key = "Context Class Rule"
+            var ruleData = [DataValue]()
+            ruleData.append(DataValue("Rule is true", "Context Class!"))
+            
+            if !self.dataHeaders.contains(key) {
+                self.dataHeaders.append(key)
+            }
+            
+            self.dataValues[key] = ruleData
+            self.tableView.reloadData()
+            
+
+        }) {
+            let key = "Context Class Rule"
+            self.dataHeaders.removeObject(key)
+            self.dataValues.removeValueForKey(key)
+            self.tableView.reloadData()
+        }
+        
+        ruleManager.addRuleSet(contextClassRule)
+    
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,24 +119,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         return cell
     }
-    
-    //MARK: Manager Preferences
-    
-    func registerPreferredLocations() {
-        
-        let home = PreferredLocation(name: "Home", location: CLLocation(latitude: -8.051622, longitude: -34.905936), rangeInMeters: 30.0)
-        locationManager.registerLocation(home)
-        
-        let cin = PreferredLocation(name: "CIn", location: CLLocation(latitude: -8.055393, longitude: -34.951784), rangeInMeters: 100.0)
-        locationManager.registerLocation(cin)
-
-    }
-    
-    func registerBeacons() {
-        
-        let contextClass = BeaconInfo(name: "Context Class", uuid: NSUUID(UUIDString: "B0702880-A295-A8AB-F734-031A98A512DE")! , majorValue: 5, minorValue: 1000)
-        locationManager.registerBeacon(contextClass)
-    }
 }
 
 extension ViewController : LocationHandlerDelegate {
@@ -102,12 +133,13 @@ extension ViewController : LocationHandlerDelegate {
         locationData.append(DataValue("Altitude", location.altitude.description))
         locationData.append(DataValue("Speed", location.speed.description))
         
-        
         if let preferredLocation = location.preferredLocation {
             locationData.append(DataValue("Current Location", preferredLocation.name))
         }
         
+        print(location.beaconsInRange)
         if let beaconsInRange = location.beaconsInRange {
+            
             
             for (index, beacon) in beaconsInRange.enumerate() {
                 locationData.append(DataValue("Beacon \(index) Name:", beacon.name))
@@ -226,5 +258,19 @@ extension ViewController : DeviceHandlerDelegate {
         
         dataValues[key] = deviceData
         tableView.reloadData()
+    
     }
+}
+
+extension ViewController : RuleHandlerDelegate {
+
+    func rulesChangedToTrue(rules : [ContextRuleSet]) {
+        print("rulesChangedToTrue")
+        for rule in rules { rule.rulesAreTrueCallback?() }
+    }
+
+    func rulesChangedToFalse(rules : [ContextRuleSet]) {
+        for rule in rules { rule.rulesAreFalseCallback?() }
+    }
+
 }

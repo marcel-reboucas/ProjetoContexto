@@ -32,6 +32,20 @@ class BeaconInfo: NSObject {
     
 }
 
+extension BeaconInfo : Comparable {}
+
+func ==(rhs: BeaconInfo, lsh: BeaconInfo) -> Bool {
+    return rhs.name == lsh.name
+}
+
+func <(rhs: BeaconInfo, lsh: BeaconInfo) -> Bool {
+    return false
+}
+
+func >(rhs: BeaconInfo, lsh: BeaconInfo) -> Bool {
+    return false
+}
+
 func ==(beacon: CLBeacon, beaconInfo: BeaconInfo) -> Bool {
     return ((beacon.proximityUUID.UUIDString == beaconInfo.uuid.UUIDString)
         && (Int(beacon.major) == Int(beaconInfo.majorValue))
